@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Time</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">yqqs.unitconverter</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Time (yqqs.unitconverter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Time</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package yqqs.unitconverter;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.Arrays;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class Time implements Measurement
+<i>7</i>&nbsp;{
+<b class="fc"><i>8</i>&nbsp;    final String MILLISECONDS = &quot;Milliseconds&quot;;</b>
+<b class="fc"><i>9</i>&nbsp;    final String SECONDS = &quot;Seconds&quot;;</b>
+<b class="fc"><i>10</i>&nbsp;    final String MINUTES = &quot;Minutes&quot;;</b>
+<b class="fc"><i>11</i>&nbsp;    final String HOURS = &quot;Hours&quot;;</b>
+<b class="fc"><i>12</i>&nbsp;    final String DAYS = &quot;Days&quot;;</b>
+<b class="fc"><i>13</i>&nbsp;    final String WEEKS = &quot;Weeks&quot;;</b>
+<b class="fc"><i>14</i>&nbsp;    final String FORTNIGHTS = &quot;Fortnights&quot;;</b>
+<b class="fc"><i>15</i>&nbsp;    final String YEARS = &quot;Years&quot;;</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    ArrayList&lt;String&gt; units;
+<b class="fc"><i>18</i>&nbsp;    String[] timeUnits = {</b>
+<i>19</i>&nbsp;            MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS, WEEKS, FORTNIGHTS, YEARS
+<i>20</i>&nbsp;    };
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Time()
+<b class="fc"><i>23</i>&nbsp;    {</b>
+<b class="fc"><i>24</i>&nbsp;        units = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;        units.addAll(Arrays.asList(timeUnits));</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public ArrayList&lt;String&gt; getUnits()
+<i>30</i>&nbsp;    {
+<b class="fc"><i>31</i>&nbsp;        return units;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @Override
+<i>35</i>&nbsp;    public double convertValue(String currentUnit, double currentValue, String newUnit)
+<i>36</i>&nbsp;    {
+<b class="fc"><i>37</i>&nbsp;        double newValue = Double.NaN;</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        newValue = currentValue / getConversionFactor(currentUnit);</b>
+<b class="fc"><i>40</i>&nbsp;        newValue = newValue * getConversionFactor(newUnit);</b>
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        return newValue;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public String toString()
+<i>47</i>&nbsp;    {
+<b class="fc"><i>48</i>&nbsp;        return &quot;Time&quot;;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public double getConversionFactor(String unit)
+<i>52</i>&nbsp;    {
+<b class="fc"><i>53</i>&nbsp;        double conversionFactor = Double.NaN;</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;        if (unit.equals(SECONDS))</b>
+<b class="fc"><i>56</i>&nbsp;            conversionFactor = 1.0;</b>
+<b class="fc"><i>57</i>&nbsp;        else if (unit.equals(MILLISECONDS))</b>
+<b class="fc"><i>58</i>&nbsp;            conversionFactor = 1000.0;</b>
+<b class="fc"><i>59</i>&nbsp;        else if (unit.equals(MINUTES))</b>
+<b class="fc"><i>60</i>&nbsp;            conversionFactor = 1.0 / 60.0;</b>
+<b class="fc"><i>61</i>&nbsp;        else if (unit.equals(HOURS))</b>
+<b class="fc"><i>62</i>&nbsp;            conversionFactor = 1.0 / 3600.0;</b>
+<b class="fc"><i>63</i>&nbsp;        else if (unit.equals(DAYS))</b>
+<b class="fc"><i>64</i>&nbsp;            conversionFactor = 1.0 / 86400.0;</b>
+<b class="fc"><i>65</i>&nbsp;        else if (unit.equals(WEEKS))</b>
+<b class="fc"><i>66</i>&nbsp;            conversionFactor = 1.0 / 604800.0;</b>
+<b class="fc"><i>67</i>&nbsp;        else if (unit.equals(FORTNIGHTS))</b>
+<b class="fc"><i>68</i>&nbsp;            conversionFactor = 1.0 / 1209600.0;</b>
+<b class="fc"><i>69</i>&nbsp;        else if (unit.equals(YEARS))</b>
+<b class="fc"><i>70</i>&nbsp;            conversionFactor = 1.0 / 31536000.0;</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        return conversionFactor;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-04 21:55</div>
+</div>
+</body>
+</html>
