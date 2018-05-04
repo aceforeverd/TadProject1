@@ -1,3 +1,5 @@
+package yqqs.unitconverter;
+
 import org.junit.jupiter.api.Test;
 import yqqs.unitconverter.*;
 import java.util.Arrays;
