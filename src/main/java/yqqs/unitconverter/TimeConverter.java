@@ -3,7 +3,7 @@ package yqqs.unitconverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Time implements Measurement
+public class TimeConverter implements Converter
 {
     final String MILLISECONDS = "Milliseconds";
     final String SECONDS = "Seconds";
@@ -19,7 +19,7 @@ public class Time implements Measurement
             MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS, WEEKS, FORTNIGHTS, YEARS
     };
 
-    public Time()
+    public TimeConverter()
     {
         units = new ArrayList<>();
         units.addAll(Arrays.asList(timeUnits));
@@ -36,8 +36,14 @@ public class Time implements Measurement
     {
         double newValue = Double.NaN;
 
-        newValue = currentValue / getConversionFactor(currentUnit);
-        newValue = newValue * getConversionFactor(newUnit);
+        try {
+            newValue = currentValue * getConversionFactor(newUnit) / getConversionFactor(currentUnit);
+        } catch (Exception e) {
+            if (e instanceof UnknownUnitException) {
+                System.out.printf(e.getMessage());
+            }
+            return 0.0;
+        }
 
         return newValue;
     }
@@ -48,7 +54,7 @@ public class Time implements Measurement
         return "Time";
     }
 
-    public double getConversionFactor(String unit)
+    public double getConversionFactor(String unit) throws Exception
     {
         double conversionFactor = Double.NaN;
 
@@ -68,6 +74,8 @@ public class Time implements Measurement
             conversionFactor = 1.0 / 1209600.0;
         else if (unit.equals(YEARS))
             conversionFactor = 1.0 / 31536000.0;
+        else
+            throw new UnknownUnitException(unit);
 
         return conversionFactor;
     }

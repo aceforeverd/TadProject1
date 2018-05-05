@@ -3,14 +3,14 @@ package yqqs.unitconverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Mass implements Measurement
+public class MassConverter implements Converter
 {
     final String MILLIGRAMS = "Milligrams";
     final String GRAMS = "Grams";
     final String KILOGRAMS = "Kilograms";
     final String TONNES = "Tonnes";
     final String OUNCES = "Ounces";
-    final String POUNDSMASS = "Pounds-Mass";
+    final String POUNDSMASS = "Pounds-MassConverter";
     final String STONES = "Stones";
 
     ArrayList<String> units;
@@ -18,7 +18,7 @@ public class Mass implements Measurement
             MILLIGRAMS, GRAMS, KILOGRAMS, TONNES, OUNCES, POUNDSMASS, STONES
     };
 
-    public Mass()
+    public MassConverter()
     {
         units = new ArrayList<>();
         units.addAll(Arrays.asList(massUnits));
@@ -35,8 +35,12 @@ public class Mass implements Measurement
     {
         double newValue = Double.NaN;
 
-        newValue = currentValue / getConversionFactor(currentUnit);
-        newValue = newValue * getConversionFactor(newUnit);
+        try {
+            newValue = currentValue * getConversionFactor(newUnit) / getConversionFactor(currentUnit);
+        } catch (UnknownUnitException e) {
+            System.out.printf(e.getMessage());
+            return 0.0;
+        }
 
         return newValue;
     }
@@ -44,10 +48,10 @@ public class Mass implements Measurement
     @Override
     public String toString()
     {
-        return "Mass";
+        return "MassConverter";
     }
 
-    public double getConversionFactor(String unit)
+    public double getConversionFactor(String unit) throws UnknownUnitException
     {
         double conversionFactor = Double.NaN;
 
@@ -65,6 +69,8 @@ public class Mass implements Measurement
             conversionFactor = 2.20462;
         else if (unit.equals(STONES))
             conversionFactor = 0.1575;
+        else
+            throw new UnknownUnitException(unit);
 
         return conversionFactor;
     }

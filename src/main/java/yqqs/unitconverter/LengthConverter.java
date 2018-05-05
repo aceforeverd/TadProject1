@@ -3,7 +3,7 @@ package yqqs.unitconverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Length implements Measurement
+public class LengthConverter implements Converter
 {
     final String MILLIMETERS = "Millimeters";
     final String CENTIMETERS = "Centimeters";
@@ -19,7 +19,7 @@ public class Length implements Measurement
             MILLIMETERS, CENTIMETERS, METERS, KILOMETERS, INCHES, FEET, YARDS, MILES
     };
 
-    public Length()
+    public LengthConverter()
     {
         units = new ArrayList<>();
         units.addAll(Arrays.asList(lengthUnits));
@@ -36,8 +36,14 @@ public class Length implements Measurement
     {
         double newValue = Double.NaN;
 
-        newValue = currentValue / getConversionFactor(currentUnit);
-        newValue = newValue * getConversionFactor(newUnit);
+        try {
+            newValue = currentValue * getConversionFactor(newUnit) / getConversionFactor(currentUnit);
+        } catch (Exception e) {
+            if (e instanceof UnknownUnitException) {
+                System.out.printf(e.getMessage());
+            }
+            return 0.0;
+        }
 
         return newValue;
     }
@@ -48,7 +54,7 @@ public class Length implements Measurement
         return "Length";
     }
 
-    public double getConversionFactor(String unit)
+    public double getConversionFactor(String unit) throws Exception
     {
         double conversionFactor = Double.NaN;
 
@@ -68,6 +74,8 @@ public class Length implements Measurement
             conversionFactor = 1.09361329;
         else if (unit.equals(MILES))
             conversionFactor = 0.000621371;
+        else
+            throw new UnknownUnitException(unit);
 
         return conversionFactor;
     }
